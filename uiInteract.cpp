@@ -17,6 +17,9 @@
 #include <cstdlib>    // for rand()
 
 
+#include <iostream>
+
+
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
 #include <openGL/gl.h>    // Main OpenGL library
@@ -146,8 +149,11 @@ void moveCallback(int x, int y)
    Interface ui;
    Position pos;
 
+   cout << x << " " << y << endl;
+
    // get coordinates from screen dimensions
    pos.setXY((double)x, (double)y);
+   cout << pos.getRow() << " " << pos.getCol() << endl << endl;
 
    ui.setHoverPosition(pos);
 }

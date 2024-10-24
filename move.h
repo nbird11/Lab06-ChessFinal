@@ -32,7 +32,8 @@ public:
 
    // constructor
    Move();
-   Move(const Position& source, const Position dest, PieceType promote, PieceType capture, MoveType moveType, bool isWhite);
+   Move(const Position& source, const Position& dest, PieceType promote, PieceType capture, MoveType moveType, bool isWhite);
+   Move(const Position& source, const Position& dest, bool isWhite);
    Move(const char* text, const bool& isWhite);
    Move(const char* text);
    Move(const string text, const bool& isWhite);

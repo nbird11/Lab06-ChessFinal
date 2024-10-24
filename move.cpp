@@ -9,11 +9,9 @@
 
 #include "move.h"
 #include "pieceType.h"
-#include <bitset>
-#include <cassert>
+#include "position.h"
 #include <cctype>
-#include <iostream>
-#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -24,7 +22,7 @@ Move::Move() : promote(PieceType::INVALID), capture(PieceType::INVALID), moveTyp
 {
 }
 
-Move::Move(const Position& source, const Position dest, PieceType promote, PieceType capture, MoveType moveType, bool isWhite)
+Move::Move(const Position& source, const Position& dest, PieceType promote, PieceType capture, MoveType moveType, bool isWhite)
 {
    this->source = source;
    this->dest = dest;
@@ -33,6 +31,16 @@ Move::Move(const Position& source, const Position dest, PieceType promote, Piece
    this->moveType = moveType;
    this->isWhite = isWhite;
    this->text = getText();
+}
+
+Move::Move(const Position& source, const Position& dest, bool isWhite)
+{
+   this->source = source;
+   this->dest = dest;
+   this->isWhite = isWhite;
+   this->promote = INVALID;
+   this->capture = SPACE;
+   this->moveType = MOVE;
 }
 
 Move::Move(const char* text, const bool& isWhite)

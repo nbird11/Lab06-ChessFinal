@@ -9,9 +9,13 @@
 
 
 #include "board.h"        // for BOARD
+#include "move.h"
+#include "piece.h"
+#include "pieceType.h"
 #include "test.h"
 #include "uiDraw.h"       // for OGSTREAM
 #include "uiInteract.h"   // for Interface
+#include <set>
 using namespace std;
 
 
@@ -24,9 +28,39 @@ using namespace std;
  **************************************/
 void callBack(Interface *pUI, void * p)
 {
+
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
    Board * pBoard = (Board *)p;  
+
+   set <Move> possible;
+
+   /*
+   generatedMove = generateMoveFromSelected(source, dest) // RETURNS A MOVE.
+   if (generatedMove != possibleMoves.end())
+      ...
+   */
+   //move <- Move FROM pUI->getPreviousPosition(), pUI->getSelectPosition()
+   Move move(pUI->getPreviousPosition(), pUI->getSelectPosition(), pBoard->whiteTurn());
+
+   // Get the possible moves from the previous (source) location.
+   if (pUI->getPreviousPosition().isValid())
+      (*pBoard)[pUI->getPreviousPosition()].getMoves(possible, *pBoard);
+
+   // move
+   if (possible.find(move) != possible.end())
+   {
+      pBoard->move(move);
+      pUI->clearSelectPosition();
+   }
+   else
+      if (pUI->getSelectPosition().isValid())
+         (*pBoard)[pUI->getSelectPosition()].getMoves(possible, *pBoard);
+
+   // if we clicked on a blank spot, then it is not selected
+   if (pUI->getSelectPosition().isValid() && (*pBoard)[pUI->getSelectPosition()].getType() == SPACE)
+      pUI->clearSelectPosition(); 
+
    pBoard->display(pUI->getHoverPosition(), pUI->getSelectPosition());
 }
 

@@ -21,7 +21,6 @@
 #include "position.h"
 #include "uiDraw.h"
 #include <utility>
-#include <iostream>
 using namespace std;
 
 
@@ -192,8 +191,6 @@ void Board::move(const Move& move)
    if ((board[source.getCol()][source.getRow()]->getType() == PieceType::KING) &&
          (move.getMoveType() == Move::MoveType::CASTLE_QUEEN))
       std::swap(board[source.getCol() - 4][source.getRow()], board[source.getCol() - 1][source.getRow()]);
-
-
 
    std::swap(board[source.getCol()][source.getRow()], board[dest.getCol()][dest.getRow()]);
 }
