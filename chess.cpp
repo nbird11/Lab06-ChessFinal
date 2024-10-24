@@ -15,6 +15,7 @@
 #include "test.h"
 #include "uiDraw.h"       // for OGSTREAM
 #include "uiInteract.h"   // for Interface
+#include <iostream>
 #include <set>
 using namespace std;
 
@@ -33,7 +34,7 @@ void callBack(Interface *pUI, void * p)
    // is the first step of every single callback function in OpenGL. 
    Board * pBoard = (Board *)p;  
 
-   set <Move> possible;
+   set <Move> possible = {};
 
    /*
    generatedMove = generateMoveFromSelected(source, dest) // RETURNS A MOVE.
@@ -44,8 +45,18 @@ void callBack(Interface *pUI, void * p)
    Move move(pUI->getPreviousPosition(), pUI->getSelectPosition(), pBoard->whiteTurn());
 
    // Get the possible moves from the previous (source) location.
-   if (pUI->getPreviousPosition().isValid())
-      (*pBoard)[pUI->getPreviousPosition()].getMoves(possible, *pBoard);
+   if (pUI->getPreviousPosition().isValid()){}
+      //(*pBoard)[pUI->getPreviousPosition()].getMoves(possible, *pBoard);
+   else if (pUI->getSelectPosition().isValid())
+   {
+      (*pBoard)[pUI->getSelectPosition()].getMoves(possible, *pBoard);
+   }
+
+   // If clicked on space, clear selection.
+   if (pUI->getSelectPosition().isValid() && (*pBoard)[pUI->getSelectPosition()].getType() == SPACE)
+   {
+      pUI->clearSelectPosition();
+   }
 
    // move
    if (possible.find(move) != possible.end())
@@ -61,7 +72,7 @@ void callBack(Interface *pUI, void * p)
    if (pUI->getSelectPosition().isValid() && (*pBoard)[pUI->getSelectPosition()].getType() == SPACE)
       pUI->clearSelectPosition(); 
 
-   pBoard->display(pUI->getHoverPosition(), pUI->getSelectPosition());
+   pBoard->display(pUI->getHoverPosition(), pUI->getSelectPosition(), possible);
 }
 
 

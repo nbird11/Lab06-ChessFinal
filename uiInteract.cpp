@@ -149,11 +149,8 @@ void moveCallback(int x, int y)
    Interface ui;
    Position pos;
 
-   cout << x << " " << y << endl;
-
    // get coordinates from screen dimensions
    pos.setXY((double)x, (double)y);
-   cout << pos.getRow() << " " << pos.getCol() << endl << endl;
 
    ui.setHoverPosition(pos);
 }

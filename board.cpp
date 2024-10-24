@@ -20,6 +20,7 @@
 #include "pieceType.h"
 #include "position.h"
 #include "uiDraw.h"
+#include <set>
 #include <utility>
 using namespace std;
 
@@ -91,8 +92,10 @@ Piece& Board::operator [] (const Position& pos)
 * BOARD : DISPLAY
 *         Display the board
 ***********************************************/
-void Board::display(const Position& posHover, const Position& posSelect) const
+void Board::display(const Position& posHover, const Position& posSelect, const set<Move>& possible) const
 {
+   ogstream gout;
+
    // draw the checkerboard
    pgout->drawBoard();
 
@@ -100,10 +103,10 @@ void Board::display(const Position& posHover, const Position& posSelect) const
    pgout->drawHover(posHover);
    pgout->drawSelected(posSelect);
 
-   //// draw the possible moves
-   //set <int> ::iterator it;
-   //for (it = possible.begin(); it != possible.end(); ++it)
-   //   gout.drawPossible(*it);
+   // draw the possible moves
+   set <Move> ::iterator it;
+   for (it = possible.begin(); it != possible.end(); ++it)
+      gout.drawPossible(it->getDest());
 
    // draw the pieces
    for (const auto& row : board)

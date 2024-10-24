@@ -54,11 +54,11 @@ public:
    // Position :    The Position class can work with other positions,
    //               Allowing for comparisions, copying, etc.
    Position(const Position & rhs) { this->colRow = rhs.colRow;    }
-   Position() : colRow(0x99)      {                               }
+   Position() : colRow(0x00)      {                               }
    bool isInvalid() const         { return (bool)(colRow & 0x88); }
    bool isValid()   const         { return !isInvalid();          }
-   void setValid()                {                               }
-   void setInvalid()              {                               }
+   void setValid()                { colRow = 0x00;                }
+   void setInvalid()              { colRow = 0xff;                }
    bool operator <  (const Position & rhs) const { return this->colRow < rhs.colRow; }
    bool operator == (const Position & rhs) const { return this->colRow == rhs.colRow; }
    bool operator != (const Position & rhs) const { return this->colRow != rhs.colRow; }
@@ -98,7 +98,7 @@ public:
    //            we need to scale them according to the size of the board.
    int getX()   const { return getRow() * squareWidth;  }
    int getY()   const { return getCol() * squareHeight; }
-   void setXY(double x, double y) { set(x / squareWidth, y / squareHeight); }
+   void setXY(double x, double y);
    double getSquareWidth()  const { return squareWidth; }
    double getSquareHeight() const { return squareHeight; }
    void setSquareWidth (double width )  { squareWidth = width;   }
