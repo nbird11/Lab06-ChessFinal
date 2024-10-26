@@ -1,6 +1,6 @@
 /**********************************************************************
 * Source File:
-*    Lab 04: Chess
+*    Lab 06: Chess Final
 * Author:
 *    Nathan Bird, Jared Davey, Brock Hoskins
 * Summary:
@@ -15,7 +15,6 @@
 #include "test.h"
 #include "uiDraw.h"       // for OGSTREAM
 #include "uiInteract.h"   // for Interface
-#include <iostream>
 #include <set>
 using namespace std;
 

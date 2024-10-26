@@ -66,9 +66,9 @@ public:
    
    // Location : The Position class can work with locations, which
    //            are 0...63 where we start in row 0, then row 1, etc.
-   Position(int location) : colRow(0x99) {                                 }
-   int getLocation() const               { return getRow() * 8 + getCol(); }
-   void setLocation(int location)        {                                 }
+   Position(int location) : colRow(0x99) {                                  }
+   int getLocation() const               { return getRow() * 8 + getCol();  }
+   void setLocation(int location)        { set(location % 8, location / 8); }
 
    
    // Row/Col : The position class can work with row/column,
@@ -96,11 +96,11 @@ public:
    // Pixels:    The Position class can work with screen coordinates,
    //            a.k.a. Pixels, these are X and Y coordinates. Note that
    //            we need to scale them according to the size of the board.
-   int getX()   const { return getRow() * squareWidth;  }
-   int getY()   const { return getCol() * squareHeight; }
+   int getX()   const { return getRow() * squareWidth;           }
+   int getY()   const { return getCol() * squareHeight;          }
    void setXY(double x, double y);
-   double getSquareWidth()  const { return squareWidth; }
-   double getSquareHeight() const { return squareHeight; }
+   double getSquareWidth()  const { return squareWidth;          }
+   double getSquareHeight() const { return squareHeight;         }
    void setSquareWidth (double width )  { squareWidth = width;   }
    void setSquareHeight(double height)  { squareHeight = height; }
 
@@ -110,7 +110,8 @@ public:
    Position(const Position & rhs, const Delta & delta) : colRow(-1) {  }
    void adjustRow(int dRow)   { }
    void adjustCol(int dCol)   { }
-   const Position& operator += (const Delta& rhs) {
+   const Position& operator += (const Delta& rhs)
+   {
       setCol(getCol() + rhs.dCol);
       setRow(getRow() + rhs.dRow);
       return *this;
@@ -156,8 +157,8 @@ public:
    void setCol(int c)                     { assert(false);           }
    void set(int c, int r)                 { assert(false);           }
 
-   int getX()   const { assert(false); return 0; }
-   int getY()   const { assert(false); return 0; }
+   int getX() const { assert(false); return 0; }
+   int getY() const { assert(false); return 0; }
    void setXY(double x, double y) { assert(false);           }
    double getSquareWidth()  const { assert(false); return 0; }
    double getSquareHeight() const { assert(false); return 0; }

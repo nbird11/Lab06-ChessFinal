@@ -100,9 +100,9 @@ class PieceDerived : public Piece
 public:
    PieceDerived(const Position& pos, bool isWhite) : Piece(9, 9) { }
    PieceDerived(int c, int r, bool isWhite) : Piece(9, 9)        { }
-   ~PieceDerived()                                                       { }
-   PieceType getType()            const     { return SPACE;                }
-   void display(ogstream* pgout)  const     { assert(false);               }
+   ~PieceDerived()                                               { }
+   PieceType getType()            const     { return SPACE;        }
+   void display(ogstream* pgout)  const     { assert(false);       }
 };
 
 
@@ -133,17 +133,17 @@ public:
    }
 
    // getters
-   bool operator == (char letter)  const { assert(false); return true;  }
-   bool operator != (char letter)  const { assert(false); return true;  }
-   bool isWhite()                  const { assert(false); return true;  }
-   bool isMoved()                  const { assert(false); return true;  }
-   int  getNMoves()                const { assert(false); return 0;     }
-   void decrementNMoves()                { assert(false);               }
+   bool operator == (char letter)  const { assert(false); return true;     }
+   bool operator != (char letter)  const { assert(false); return true;     }
+   bool isWhite()                  const { assert(false); return true;     }
+   bool isMoved()                  const { assert(false); return true;     }
+   int  getNMoves()                const { assert(false); return 0;        }
+   void decrementNMoves()                { assert(false);                  }
    const Position & getPosition()  const { assert(false); return position; }
-   bool justMoved(int currentMove) const { assert(false); return true;  }
+   bool justMoved(int currentMove) const { assert(false); return true;     }
 
    // setter
-   void setLastMove(int currentMove)     { assert(false);               }
+   void setLastMove(int currentMove)     { assert(false); }
 
    // overwritten by the various pieces
    PieceType getType()             const { assert(false); return SPACE; }
