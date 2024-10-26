@@ -188,14 +188,25 @@ void Board::move(const Move& move)
    // King-side Castle
    if ((board[source.getCol()][source.getRow()]->getType() == PieceType::KING) &&
        (move.getMoveType() == Move::MoveType::CASTLE_KING))
+   {
+      // change rook position
       std::swap(board[source.getCol() + 3][source.getRow()], board[source.getCol() + 1][source.getRow()]);
+      board[source.getCol() + 1][source.getRow()]->setPosition(Position(source.getCol() + 1, source.getRow()));
+   }
 
    // Queen-side Castle
    if ((board[source.getCol()][source.getRow()]->getType() == PieceType::KING) &&
          (move.getMoveType() == Move::MoveType::CASTLE_QUEEN))
+   {
+      // change rook position
       std::swap(board[source.getCol() - 4][source.getRow()], board[source.getCol() - 1][source.getRow()]);
+      board[source.getCol() - 1][source.getRow()]->setPosition(Position(source.getCol() - 1, source.getRow()));
+   }
 
+   // change source piece position
    std::swap(board[source.getCol()][source.getRow()], board[dest.getCol()][dest.getRow()]);
+   board[dest.getCol()][dest.getRow()]->setPosition(dest);
+
 }
 
 /**********************************************

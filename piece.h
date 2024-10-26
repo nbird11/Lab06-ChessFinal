@@ -72,6 +72,7 @@ public:
 
    // setter
    virtual void setLastMove(int currentMove);
+   virtual void setPosition(const Position& newPos) { position.set(newPos.getCol(), newPos.getRow()); }
 
    // overwritten by the various pieces
    virtual PieceType getType()            const = 0;

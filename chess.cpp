@@ -34,7 +34,8 @@ void callBack(Interface *pUI, void * p)
    // is the first step of every single callback function in OpenGL. 
    Board * pBoard = (Board *)p;  
 
-   set <Move> possible = {};
+   set <Move> possible;
+   set <Move> previousPossible;
 
    /*
    generatedMove = generateMoveFromSelected(source, dest) // RETURNS A MOVE.
@@ -42,24 +43,18 @@ void callBack(Interface *pUI, void * p)
       ...
    */
    //move <- Move FROM pUI->getPreviousPosition(), pUI->getSelectPosition()
-   Move move(pUI->getPreviousPosition(), pUI->getSelectPosition(), pBoard->whiteTurn());
+   Move move;
+   if (pUI->getSelectPosition().isValid() && pUI->getPreviousPosition().isValid())
+      move = Move(pUI->getPreviousPosition(), pUI->getSelectPosition(), (*pBoard)[pUI->getSelectPosition()].getType(), pBoard->whiteTurn());
 
    // Get the possible moves from the previous (source) location.
-   if (pUI->getPreviousPosition().isValid()){}
-      //(*pBoard)[pUI->getPreviousPosition()].getMoves(possible, *pBoard);
-   else if (pUI->getSelectPosition().isValid())
-   {
+   if (pUI->getPreviousPosition().isValid())
+      (*pBoard)[pUI->getPreviousPosition()].getMoves(previousPossible, *pBoard);
+   if (pUI->getSelectPosition().isValid())
       (*pBoard)[pUI->getSelectPosition()].getMoves(possible, *pBoard);
-   }
-
-   // If clicked on space, clear selection.
-   if (pUI->getSelectPosition().isValid() && (*pBoard)[pUI->getSelectPosition()].getType() == SPACE)
-   {
-      pUI->clearSelectPosition();
-   }
 
    // move
-   if (possible.find(move) != possible.end())
+   if (previousPossible.find(move) != previousPossible.end())
    {
       pBoard->move(move);
       pUI->clearSelectPosition();

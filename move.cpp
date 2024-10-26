@@ -33,7 +33,7 @@ Move::Move(const Position& source, const Position& dest, PieceType promote, Piec
    this->text = getText();
 }
 
-Move::Move(const Position& source, const Position& dest, bool isWhite)
+Move::Move(const Position& source, const Position& dest, PieceType capture, bool isWhite)
 {
    this->source = source;
    this->dest = dest;
@@ -41,6 +41,7 @@ Move::Move(const Position& source, const Position& dest, bool isWhite)
    this->promote = INVALID;
    this->capture = SPACE;
    this->moveType = MOVE;
+   this->text = getText();
 }
 
 Move::Move(const char* text, const bool& isWhite)
