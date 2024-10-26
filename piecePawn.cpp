@@ -38,11 +38,15 @@ void Pawn::getMoves(set<Move>& possible, const Board& board) const
          possible.insert(createNewMove(newPos, board));  // forward one black space
       c = col - 1;
       newPos.set(c, r);
-      if (r >= 1 && board[newPos].isWhite() && board[newPos].getType() != PieceType::SPACE)
+      if (c >= 0 && board[newPos].isWhite() &&
+          board[newPos].getType() != PieceType::SPACE &&
+          r != 0)
          possible.insert(createNewMove(newPos, board));  // attack left
       c = col + 1;
       newPos.set(c, r);
-      if (r >= 1 && board[newPos].isWhite() && board[newPos].getType() != PieceType::SPACE)
+      if (c < 8 && board[newPos].isWhite() &&
+          board[newPos].getType() != PieceType::SPACE &&
+          r != 0)
          possible.insert(createNewMove(newPos, board));  // attack right
       
       // Black En Passant
@@ -53,7 +57,7 @@ void Pawn::getMoves(set<Move>& possible, const Board& board) const
           (r == 3) &&  // Correct row for en passant
           (board[newPos].getType() == PieceType::PAWN) &&  // Pawn to the left
           (board[newPos].isWhite() != fWhite) &&           // Left pawn is opposite color
-          (board[newPos].getLastMove() == board.getCurrentMove() - 1))  // Left pawn just moved
+          (board[newPos].getLastMove() == board.getCurrentMove()))  // Left pawn just moved
          possible.insert(createNewEnPassantMove(Position(c, r - 1), board));
       c = col + 1;
       r = row;
@@ -62,7 +66,7 @@ void Pawn::getMoves(set<Move>& possible, const Board& board) const
           (r == 3) &&  // Correct row for en passant
           (board[newPos].getType() == PieceType::PAWN) &&  // Pawn to the right
           (board[newPos].isWhite() != fWhite) &&           // Right pawn is opposite color
-          (board[newPos].getLastMove() == board.getCurrentMove() - 1))  // Right pawn just moved
+          (board[newPos].getLastMove() == board.getCurrentMove()))  // Right pawn just moved
          possible.insert(createNewEnPassantMove(Position(c, r - 1), board));
 
       // Black Promote
@@ -100,11 +104,15 @@ void Pawn::getMoves(set<Move>& possible, const Board& board) const
          possible.insert(createNewMove(newPos, board));  // forward one blank space
       c = col - 1;
       newPos.set(c, r);
-      if (r < 7 && !board[newPos].isWhite() && board[newPos].getType() != PieceType::SPACE)
+      if (c >= 0 && !board[newPos].isWhite() &&
+          board[newPos].getType() != PieceType::SPACE &&
+          r != 7)
          possible.insert(createNewMove(newPos, board));  // attack left
       c = col + 1;
       newPos.set(c, r);
-      if (r < 7 && !board[newPos].isWhite() && board[newPos].getType() != PieceType::SPACE)
+      if (c < 8 && !board[newPos].isWhite() &&
+          board[newPos].getType() != PieceType::SPACE &&
+          r != 7)
          possible.insert(createNewMove(newPos, board));  // attack right
       
       // En Passant
@@ -115,7 +123,7 @@ void Pawn::getMoves(set<Move>& possible, const Board& board) const
           (r == 4) &&  // Correct row for en passant
           (board[newPos].getType() == PieceType::PAWN) &&  // Pawn to the left
           (board[newPos].isWhite() != fWhite) &&           // Left pawn is opposite color
-          (board[newPos].getLastMove() == board.getCurrentMove() - 1))  // Left pawn just moved
+          (board[newPos].getLastMove() == board.getCurrentMove()))  // Left pawn just moved
          possible.insert(createNewEnPassantMove(Position(c, r + 1), board));
       c = col + 1;
       r = row;
@@ -124,7 +132,7 @@ void Pawn::getMoves(set<Move>& possible, const Board& board) const
           (r == 4) &&  // Correct row for en passant
           (board[newPos].getType() == PieceType::PAWN) &&  // Pawn to the right
           (board[newPos].isWhite() != fWhite) &&           // Right pawn is opposite color
-          (board[newPos].getLastMove() == board.getCurrentMove() - 1))  // Right pawn just moved
+          (board[newPos].getLastMove() == board.getCurrentMove()))  // Right pawn just moved
          possible.insert(createNewEnPassantMove(Position(c, r + 1), board));
 
       // White Promote

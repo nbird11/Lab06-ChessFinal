@@ -11,6 +11,7 @@
 #include "pieceType.h"
 #include "position.h"
 #include <cctype>
+#include <set>
 #include <string>
 
 using namespace std;
@@ -33,15 +34,29 @@ Move::Move(const Position& source, const Position& dest, PieceType promote, Piec
    this->text = getText();
 }
 
-Move::Move(const Position& source, const Position& dest, PieceType capture, bool isWhite)
+Move::Move(const Position& source, const Position& dest, const set<Move>& possible)
 {
-   this->source = source;
-   this->dest = dest;
-   this->isWhite = isWhite;
-   this->promote = INVALID;
-   this->capture = SPACE;
-   this->moveType = MOVE;
-   this->text = getText();
+   bool matched = false;
+   for (const Move& move : possible)
+   {
+      if (move.getSource() == source && move.getDest() == dest)
+      {
+         this->source = source;
+         this->dest = dest;
+         this->isWhite = move.getIsWhite();
+         this->promote = move.getPromote();
+         this->capture = move.getCatpure();
+         this->moveType = move.getMoveType();
+         this->text = move.getText();
+         matched = true;
+      }
+   }
+
+   if (!matched)
+   {
+      Move();
+   }
+
 }
 
 Move::Move(const char* text, const bool& isWhite)

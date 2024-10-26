@@ -9,9 +9,10 @@
 
 #pragma once
 
-#include <string>
-#include "position.h"  // Every move has two Positions as attributes
 #include "pieceType.h" // A piece type
+#include "position.h"  // Every move has two Positions as attributes
+#include <set>
+#include <string>
 
 
 class TestMove;
@@ -33,7 +34,7 @@ public:
    // constructor
    Move();
    Move(const Position& source, const Position& dest, PieceType promote, PieceType capture, MoveType moveType, bool isWhite);
-   Move(const Position& source, const Position& dest, PieceType capture, bool isWhite);
+   Move(const Position& source, const Position& dest, const std::set<Move> & possible);
    Move(const char* text, const bool& isWhite);
    Move(const char* text);
    Move(const string text, const bool& isWhite);

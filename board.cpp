@@ -175,14 +175,17 @@ void Board::move(const Move& move)
    // En Passant
    if (move.getMoveType() == Move::MoveType::ENPASSANT)
    {
-      board[dest.getCol()][dest.getRow() - 1] = new Space(dest.getCol(), dest.getRow());
+      if (move.getIsWhite())
+         board[dest.getCol()][dest.getRow() - 1] = new Space(dest.getCol(), dest.getRow());
+      else
+         board[dest.getCol()][dest.getRow() + 1] = new Space(dest.getCol(), dest.getRow());
    }
 
    // Pawn promition
    if ((board[source.getCol()][source.getRow()]->getType() == PieceType::PAWN) &&
        (dest.getRow() == 0 || dest.getRow() == 7))
    {
-      board[source.getCol()][source.getRow()] = new Queen(source.getCol(), source.getRow());
+      board[source.getCol()][source.getRow()] = new Queen(source.getCol(), source.getRow(), move.getIsWhite());
    }
 
    // King-side Castle

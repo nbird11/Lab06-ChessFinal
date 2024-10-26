@@ -315,7 +315,7 @@ void TestPawn::getMoves_enpassantWhite()
    Black black3(PAWN); 
    black3.lastMove = 1;
    board.board[2][4] = &black3;
-   board.numMoves = 2;
+   board.numMoves = 1;
    set <Move> moves;
    
    // EXERCISE
@@ -368,7 +368,7 @@ void TestPawn::getMoves_enpassantBlack()
    board.board[4][3] = &white1;
    board.board[5][2] = &white2;
    board.board[6][3] = &white3;
-   board.numMoves = 2;
+   board.numMoves = 1;
    set <Move> moves;
    
 

@@ -34,24 +34,19 @@ void callBack(Interface *pUI, void * p)
    // is the first step of every single callback function in OpenGL. 
    Board * pBoard = (Board *)p;  
 
+   Move move;
    set <Move> possible;
    set <Move> previousPossible;
-
-   /*
-   generatedMove = generateMoveFromSelected(source, dest) // RETURNS A MOVE.
-   if (generatedMove != possibleMoves.end())
-      ...
-   */
-   //move <- Move FROM pUI->getPreviousPosition(), pUI->getSelectPosition()
-   Move move;
-   if (pUI->getSelectPosition().isValid() && pUI->getPreviousPosition().isValid())
-      move = Move(pUI->getPreviousPosition(), pUI->getSelectPosition(), (*pBoard)[pUI->getSelectPosition()].getType(), pBoard->whiteTurn());
 
    // Get the possible moves from the previous (source) location.
    if (pUI->getPreviousPosition().isValid())
       (*pBoard)[pUI->getPreviousPosition()].getMoves(previousPossible, *pBoard);
    if (pUI->getSelectPosition().isValid())
       (*pBoard)[pUI->getSelectPosition()].getMoves(possible, *pBoard);
+
+   // Create the move that matches one of the moves in possible moves.
+   if (pUI->getSelectPosition().isValid() && pUI->getPreviousPosition().isValid())
+      move = Move(pUI->getPreviousPosition(), pUI->getSelectPosition(), previousPossible);
 
    // move
    if (previousPossible.find(move) != previousPossible.end())
