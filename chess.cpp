@@ -26,40 +26,41 @@ using namespace std;
  * engine will wait until the proper amount of
  * time has passed and put the drawing on the screen.
  **************************************/
-void callBack(Interface *pUI, void * p)
+void callBack(Interface* pUI, void* p)
 {
 
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
-   Board * pBoard = (Board *)p;  
+   Board* pBoard = (Board*)p;
 
    Move move;
    set <Move> possible;
-   set <Move> previousPossible;
 
    // Get the possible moves from the previous (source) location.
    if (pUI->getPreviousPosition().isValid())
-      (*pBoard)[pUI->getPreviousPosition()].getMoves(previousPossible, *pBoard);
-   if (pUI->getSelectPosition().isValid())
-      (*pBoard)[pUI->getSelectPosition()].getMoves(possible, *pBoard);
+      (*pBoard)[pUI->getPreviousPosition()].getMoves(possible, *pBoard);
 
-   // Create the move that matches one of the moves in possible moves.
+   // Create the move that matches the source/dest to one of the possible moves.
    if (pUI->getSelectPosition().isValid() && pUI->getPreviousPosition().isValid())
-      move = Move(pUI->getPreviousPosition(), pUI->getSelectPosition(), previousPossible);
+      move = Move(pUI->getPreviousPosition(), pUI->getSelectPosition(), possible);
 
    // move
-   if (previousPossible.find(move) != previousPossible.end())
+   if (possible.find(move) != possible.end())
    {
       pBoard->move(move);
       pUI->clearSelectPosition();
    }
-   else
-      if (pUI->getSelectPosition().isValid())
-         (*pBoard)[pUI->getSelectPosition()].getMoves(possible, *pBoard);
+   // Previous source/dest didn't match any moves in possible, so draw current
+   // selection's possible moves.
+   else if (pUI->getSelectPosition().isValid())
+   {
+      possible.clear();
+      (*pBoard)[pUI->getSelectPosition()].getMoves(possible, *pBoard);
+   }
 
    // if we clicked on a blank spot, then it is not selected
    if (pUI->getSelectPosition().isValid() && (*pBoard)[pUI->getSelectPosition()].getType() == SPACE)
-      pUI->clearSelectPosition(); 
+      pUI->clearSelectPosition();
 
    pBoard->display(pUI->getHoverPosition(), pUI->getSelectPosition(), possible);
 }
@@ -83,9 +84,9 @@ int main(int argc, char** argv)
 
    // run all the unit tests
    testRunner();
-   
+
    // Instantiate the graphics window
-   Interface ui("Chess");    
+   Interface ui("Chess");
 
    // Initialize the game class
    ogstream* pgout = new ogstream;
@@ -93,8 +94,8 @@ int main(int argc, char** argv)
    board.reset();
 
    // set everything into action
-   ui.run(callBack, (void *)(&board));      
-   
+   ui.run(callBack, (void*)(&board));
+
    // All done.
    delete pgout;
    return 0;
